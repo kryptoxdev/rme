@@ -1,14 +1,11 @@
 [development]
 address = "localhost"
 port = 3000
-template_dir = "static/templates/"
 
 [staging]
 address = "localhost"
 port = 3000
-template_dir = "static/templates/"
 
 [production]
 address = "localhost"
 port = 3000
-template_dir = "static/templates/"
