@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+body {
+	background-color: #010014;
+	color: white;
+}
+
+h1 {
+	font-family: "Barlow", sans-serif;
+	font-weight: 700;
+}
+
+.defaultText {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 900;
+	color: white;
+}
+
+.defaultText.form {
+	font-size: 20px;
+	font-weight: 700;
+}
+
+
+.defaultText.secondary {
+	color: grey;
+}
+
+.appIcon {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 800;
+	text-decoration: none;
+	color: white;
+}
+
+.primaryButton {
+	font-family: "Barlow", sans-serif;
+	font-weight: 700;
+	background-color: #020040;
+	color: white;
+	padding: 20px;
+}
+
+.navButtons {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 600;
+	color: grey;
+	padding: 5px;
+	text-decoration: none;
+}
+
+.navButtons.active {
+	color: white;
+}
+
+.lightBackground {
+	background-color: #020022;
+}
+
+.darkBackground {
+	background-color: #020018;
+}

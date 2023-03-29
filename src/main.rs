@@ -2,6 +2,7 @@
 
 #[macro_use] extern crate rocket;
 
+use rocket_contrib::serve::StaticFiles;
 use rocket_contrib::templates::Template;
 use serde_json::json;
 
@@ -15,6 +16,7 @@ fn index() -> Template {
 
 fn main() {
 	rocket::ignite()
+	.mount("/", StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")))
 	.mount("/", routes![index])
 	.attach(Template::fairing())
 	.launch();
