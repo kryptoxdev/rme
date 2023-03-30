@@ -6,7 +6,7 @@
           integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/main.css">
     <meta charset="utf-8">
-    <title>{{ title }}</title>
+    <title>{{ pagetitle }}</title>
 </head>
 
 <body>
@@ -38,15 +38,17 @@
             <div class="mb-4 w-100 rounded-3 shadow-lg">
                 <div class="card-body">
                     <div class="row">
+                        {{#each reminders}}
                         <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
                             <div class="card defaultText lightBackground mb-4 w-100 rounded-3 shadow-lg">
                                 <div class="card-body">
-                                    <h5 class="card-title">title</h5>
-                                    <p class="card-text">desc</p>
-                                    <p class="card-text">date</p>
+                                    <h5 class="card-title">{{title}}</h5>
+                                    <p class="card-text">{{description}}</p>
+                                    <p class="card-text">{{date}}</p>
                                 </div>
                             </div>
                         </div>
+                        {{/each}}
                     </div>
                 </div>
             </div>
