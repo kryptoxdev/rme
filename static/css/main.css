@@ -41,6 +41,11 @@ h1 {
 	padding: 20px;
 }
 
+.primaryButton:hover {
+	background-color: #020060;
+	color: white;
+}
+
 .navButtons {
 	font-family: "Open Sans", sans-serif;
 	font-weight: 600;
@@ -53,10 +58,21 @@ h1 {
 	color: white;
 }
 
+.addButton {
+	background-color: #03DAC6;
+	color: white;
+	font-family: "Opens Sans", sans-serif;
+	font-weight: 600;
+}
+
+.addButton:hover {
+	background-color: #00b8a5;
+}
+
 .lightBackground {
 	background-color: #020022;
 }
 
-.darkBackground {
-	background-color: #020018;
+.lighterBackground {
+	background-color: #020030;
 }
