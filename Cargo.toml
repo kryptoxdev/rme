@@ -10,4 +10,5 @@ rocket_contrib = { version = "0.4.10", features = ["handlebars_templates", "data
 mysql = "23.0.1"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+chrono = "0.4.24"
 

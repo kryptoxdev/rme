@@ -2,6 +2,7 @@
 
 #[macro_use] extern crate rocket;
 
+use chrono::prelude::*;
 use mysql::prelude::*;
 use mysql::*;
 use rocket_contrib::serve::StaticFiles;
@@ -28,20 +29,41 @@ fn index() -> Template {
 
 #[get("/reminders")]
 fn reminders() -> Template {
-	let url = "mysql://root:password@localhost:3306/jackreminders";
-	let pool = Pool::new(url).unwrap();
+    let url = "mysql://root:password@localhost:3306/jackreminders";
+    let pool = Pool::new(url).unwrap();
 
-	let mut conn = pool.get_conn().unwrap();
+    let mut conn = pool.get_conn().unwrap();
 
-	let reminders_data = conn.query_map("SELECT * FROM reminders",|(id, title, description, date)| 
-	Reminder { id, title, description, date }).unwrap();
+    let reminders_data: Vec<Reminder> = conn.query_map(
+        "SELECT * FROM reminders",
+        |(id, title, description, date)| Reminder {
+            id,
+            title,
+            description,
+            date,
+        },
+    )
+    .unwrap()
+    .iter()
+    .map(|reminder| {
+        let date_time = NaiveDateTime::parse_from_str(&reminder.date, "%Y-%m-%d %H:%M:%S").unwrap();
+        let formatted_date = date_time.format("%d %B %Y, %I:%M %p").to_string();
 
-	let context = json!({
-		"pagetitle": "r.me | Reminders",
-		"reminders": reminders_data,
-	});
+        Reminder {
+            id: reminder.id,
+            title: reminder.title.clone(),
+            description: reminder.description.clone(),
+            date: formatted_date,
+        }
+    })
+    .collect();
 
-	Template::render("reminders", &context)
+    let context = json!({
+        "pagetitle": "r.me | Reminders",
+        "reminders": reminders_data,
+    });
+
+    Template::render("reminders", &context)
 }
 
 fn main() {
