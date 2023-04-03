@@ -54,11 +54,24 @@ h1 {
 	font-weight: 700;
 	background-color: #03DAC6;
 	color: white;
-	padding: 15px;
+	padding: 10px;
 }
 
 .primaryButton:hover {
 	background-color: #00b8a5;
+	color: white;
+}
+
+.homeButton {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 800;
+	background-color: #020040;
+	color: white;
+	padding: 15px;
+}
+
+.homeButton:hover {
+	background-color: #020060;
 	color: white;
 }
 
@@ -76,10 +89,10 @@ h1 {
 }
 
 .editButton {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 700;
 	background-color: #028090;
 	color: white;
-	font-family: "Opens Sans", sans-serif;
-	font-weight: 600;
 	padding: 10px;
 }
 
