@@ -66,10 +66,19 @@ fn reminders() -> Template {
     Template::render("reminders", &context)
 }
 
+#[get("/reminders/add")]
+fn get_reminders() -> Template {
+	let context = json!({
+		"pagetitle": "r.me | Add Reminder"
+	});
+	
+	Template::render("getreminders", &context)
+}
+
 fn main() {
 	rocket::ignite()
 		.mount("/", StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")))
-		.mount("/", routes![index, reminders])
+		.mount("/", routes![index, reminders, get_reminders])
 		.attach(Template::fairing())
 		.launch();
 }
