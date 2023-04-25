@@ -57,8 +57,7 @@ fn reminders() -> Template {
 		.unwrap()
 		.iter()
 		.map(|reminder| {
-			let date_time =
-				NaiveDateTime::parse_from_str(&reminder.date, "%Y-%m-%d %H:%M:%S").unwrap();
+			let date_time = NaiveDateTime::parse_from_str(&reminder.date, "%Y-%m-%d %H:%M:%S").unwrap();
 			let formatted_date = date_time.format("%d %B %Y, %I:%M %p").to_string();
 
 			Reminder {
