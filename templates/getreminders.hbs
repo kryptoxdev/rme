@@ -21,29 +21,29 @@
 			<div class="col-md-3 text-end"></div>
 		</nav>
 	</div>
-	<div class="px-4 py-5">
-		<div class="py-5">
-			<div class="col-lg-6 mx-auto justify-content-center">
-				<form id="ReminderForm" action="http://localhost:3000/reminders/add" method="post">
+	<div class="container py-5">
+		<div class="row justify-content-center">
+			<div class="col-lg-6">
+				<form id="ReminderForm" action="http://localhost:3000/reminders/add" method="post" class="lightBackground p-5 rounded">
+					<h2 class="heading">Add a Reminder</h2>
 					<div class="form-group">
 						<label class="defaultText form" for="title">Reminder name</label><br>
 						<input class="formInput rounded" type="text" class="form-control" id="title" name="title"
 							placeholder="Enter reminder name">
 					</div>
-					<div class="form-group">
+					<div class="form-group pt-3">
 						<label class="defaultText form" for="description">Reminder description</label><br>
 						<input class="formInput rounded" type="text" class="form-control" id="description"
 							name="description" placeholder="Enter reminder description">
 					</div>
-					<div class="form-group">
+					<div class="form-group pt-3">
 						<label class="defaultText form" for="date">Reminder date</label><br>
 						<input class="formInput rounded" type="text" class="form-control" id="date" name="date"
 							placeholder="Select reminder date">
 					</div>
 					<div class="form-group">
 						<button type="submit" class="btn primaryButton" style="width: 123px;">Submit</button>
-						<a class="btn deleteButton mt-3" style="width: 123px;" href="/reminders"
-							role="button">Discard</a>
+						<a class="btn deleteButton mt-3" style="width: 123px;" href="/reminders" role="button">Discard</a>
 					</div>
 				</form>
 			</div>
@@ -57,7 +57,7 @@
 		rel="stylesheet">
 	<script>
 		$(document).ready(function () {
-			var date_input = $('input[name="date"]'); //our date input has the name "date"
+			var date_input = $('input[name="date"]');
 			var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
 			var options = {
 				format: 'yyyy-mm-dd',
