@@ -109,7 +109,7 @@ fn send_reminder(form: Form<ReminderForm>) -> Redirect {
 }
 
 #[get("/reminders/delete/<id>")]
-fn delete_reminder(id: u32) -> Template {
+fn render_delete(id: u32) -> Template {
 	let url = "mysql://root:password@localhost:3306/jackreminders";
 	let pool = Pool::new(url).unwrap();
 
@@ -149,13 +149,29 @@ fn delete_reminder(id: u32) -> Template {
 	Template::render("deletereminder", &context)
 }
 
+#[post("/reminders/delete/<id>")]
+fn delete_reminder(id: u32) -> Redirect {
+	let url = "mysql://root:password@localhost:3306/jackreminders";
+	let pool = Pool::new(url).unwrap();
+
+	let mut conn = pool.get_conn().unwrap();
+
+	let query = format!(
+		"DELETE FROM reminders WHERE id = {id}"
+	);
+
+	conn.query_drop(query).unwrap();
+
+	Redirect::to("/reminders")
+}
+
 fn main() {
 	rocket::ignite()
 		.mount(
 			"/",
 			StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")),
 		)
-		.mount("/", routes![index, reminders, get_reminders, send_reminder, delete_reminder])
+		.mount("/", routes![index, reminders, get_reminders, send_reminder, render_delete, delete_reminder])
 		.attach(Template::fairing())
 		.launch();
 }

@@ -118,6 +118,14 @@ h1 {
 	background-color: #005F6B;
 }
 
+.returnButton {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 700;
+	background-color: grey;
+	color: white;
+	padding: 10px;
+}
+
 .navButtons {
 	font-family: "Open Sans", sans-serif;
 	font-weight: 600;

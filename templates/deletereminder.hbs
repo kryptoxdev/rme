@@ -22,6 +22,32 @@
 			<div class="col-md-3 text-end"></div>
 		</nav>
 	</div>
+
+	<div class="container-fluid">
+		<div class="row center">
+			<div class="col-md-4">
+				{{#each reminders}}
+				<form id="ReminderForm" action="http://localhost:3000/reminders/delete/{{id}}" method="post" class="lightBackground p-5 rounded">
+					
+					<h2 class="heading text-center">Delete Reminder '{{title}}'</h2>
+					<div class="form-group">
+						<label for="description" class="defaultText form form-label">Description</label>
+						<p class="defaultText">{{description}}</p>
+					</div>
+					<div class="form-group">
+						<label for="date" class="defaultText form form-label">Date</label>
+						<p class="defaultText">{{date}}</p>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn deleteButton w-25">Delete</button>
+						<a href="/reminders" class="btn returnButton mx-2 w-25" role="button">Discard</a>
+					</div>
+					
+				</form>
+				{{/each}}
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>
