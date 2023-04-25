@@ -3,6 +3,7 @@
 body {
 	background-color: #010014;
 	color: white;
+	overflow: hidden;
 }
 
 h1 {
@@ -44,8 +45,15 @@ h1 {
 }
 
 .formInput {
-	background-color: black;
+	background-color: #020022;
 	color: white;
+}
+
+.formInput::placeholder {
+	font-family: "Open Sans", sans-serif;
+	font-weight: 500;
+	font-size: 14px;
+	color: grey;
 }
 
 .homeText.secondary {
@@ -128,4 +136,13 @@ h1 {
 
 .lighterBackground {
 	background-color: #020030;
+}
+
+.center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	margin-top: -56px;
 }
