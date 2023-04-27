@@ -44,6 +44,8 @@ fn reminders() -> Template {
 
 	let mut conn = pool.get_conn().unwrap();
 
+	conn.query_drop("DELETE FROM REMINDERS WHERE date < NOW();").unwrap();
+
 	let reminders_data: Vec<Reminder> = conn
 		.query_map(
 			"SELECT * FROM reminders",
