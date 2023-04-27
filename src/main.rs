@@ -78,7 +78,7 @@ fn reminders() -> Template {
 }
 
 #[get("/reminders/add")]
-fn get_reminders() -> Template {
+fn render_add() -> Template {
 	let context = json!({
 		"pagetitle": "r.me | Add Reminder"
 	});
@@ -87,7 +87,7 @@ fn get_reminders() -> Template {
 }
 
 #[post("/reminders/add", data = "<form>")]
-fn send_reminder(form: Form<ReminderForm>) -> Redirect {
+fn add_reminder(form: Form<ReminderForm>) -> Redirect {
 	let url = "mysql://root:password@localhost:3306/jackreminders";
 	let pool = Pool::new(url).unwrap();
 
@@ -170,7 +170,7 @@ fn main() {
 			"/",
 			StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")),
 		)
-		.mount("/", routes![index, reminders, get_reminders, send_reminder, render_delete, delete_reminder])
+		.mount("/", routes![index, reminders, render_add, add_reminder, render_delete, delete_reminder])
 		.attach(Template::fairing())
 		.launch();
 }
