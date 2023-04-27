@@ -184,15 +184,11 @@ fn render_edit(id: u32) -> Template {
 		.unwrap()
 		.iter()
 		.map(|reminder| {
-			let date_time =
-				NaiveDateTime::parse_from_str(&reminder.date, "%Y-%m-%d %H:%M:%S").unwrap();
-			let formatted_date = date_time.format("%d %B %Y, %I:%M %p").to_string();
-
 			Reminder {
 				id: reminder.id,
 				title: reminder.title.clone(),
 				description: reminder.description.clone(),
-				date: formatted_date,
+				date: reminder.date.clone(),
 			}
 		})
 		.collect();
@@ -205,13 +201,34 @@ fn render_edit(id: u32) -> Template {
 	Template::render("editreminder", &context)
 }
 
+#[post("/reminders/edit/<id>", data = "<form>")]
+fn edit_reminder(id: u32, form: Form<ReminderForm>) -> Redirect {
+	let url = "mysql://root:password@localhost:3306/jackreminders";
+	let pool = Pool::new(url).unwrap();
+
+	let mut conn = pool.get_conn().unwrap();
+
+	let title = form.title.clone();
+	let description = form.description.clone();
+	let date = form.date.clone();
+
+	let query = format!(
+		"UPDATE reminders SET title = '{}', description = '{}', date = '{}' WHERE id = {}",
+		title, description, date, id
+	);
+
+	conn.query_drop(query).unwrap();
+
+	Redirect::to("/reminders")
+}
+
 fn main() {
 	rocket::ignite()
 		.mount(
 			"/",
 			StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")),
 		)
-		.mount("/", routes![index, reminders, render_add, add_reminder, render_delete, delete_reminder, render_edit])
+		.mount("/", routes![index, reminders, render_add, add_reminder, render_delete, delete_reminder, render_edit, edit_reminder])
 		.attach(Template::fairing())
 		.launch();
 }
