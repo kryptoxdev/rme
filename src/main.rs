@@ -83,7 +83,7 @@ fn render_add() -> Template {
 		"pagetitle": "r.me | Add Reminder"
 	});
 
-	Template::render("getreminders", &context)
+	Template::render("addreminder", &context)
 }
 
 #[post("/reminders/add", data = "<form>")]
@@ -164,13 +164,54 @@ fn delete_reminder(id: u32) -> Redirect {
 	Redirect::to("/reminders")
 }
 
+#[get("/reminders/edit/<id>")]
+fn render_edit(id: u32) -> Template {
+	let url = "mysql://root:password@localhost:3306/jackreminders";
+	let pool = Pool::new(url).unwrap();
+
+	let mut conn = pool.get_conn().unwrap();
+
+	let reminder_data: Vec<Reminder> = conn
+		.query_map(format!(
+			"SELECT * FROM reminders WHERE id = {id}"),
+			|(id, title, description, date)| Reminder {
+				id,
+				title,
+				description,
+				date,
+			},
+		)
+		.unwrap()
+		.iter()
+		.map(|reminder| {
+			let date_time =
+				NaiveDateTime::parse_from_str(&reminder.date, "%Y-%m-%d %H:%M:%S").unwrap();
+			let formatted_date = date_time.format("%d %B %Y, %I:%M %p").to_string();
+
+			Reminder {
+				id: reminder.id,
+				title: reminder.title.clone(),
+				description: reminder.description.clone(),
+				date: formatted_date,
+			}
+		})
+		.collect();
+
+	let context = json!({
+		"pagetitle": "r.me | Edit Reminder",
+		"reminders": reminder_data
+	});
+
+	Template::render("editreminder", &context)
+}
+
 fn main() {
 	rocket::ignite()
 		.mount(
 			"/",
 			StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")),
 		)
-		.mount("/", routes![index, reminders, render_add, add_reminder, render_delete, delete_reminder])
+		.mount("/", routes![index, reminders, render_add, add_reminder, render_delete, delete_reminder, render_edit])
 		.attach(Template::fairing())
 		.launch();
 }

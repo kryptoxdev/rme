@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>{{ pagetitle }}</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+	<link rel="stylesheet" href="../css/main.css">
+</head>
+
+<body>
+	<div class="container">
+		<nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
+			<div class="col-md-3 mb-2 mb-md-0">
+				<a class="appIcon" href="/">R.ME</a>
+			</div>
+			<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+				<li><a href="/" class="navButtons active" aria-current="page">home</a></li>
+				<li><a href="/reminders" class="navButtons">reminders</a></li>
+			</ul>
+			<div class="col-md-3 text-end"></div>
+		</nav>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row center">
+			<div class="col-md-4">
+				<form id="ReminderForm" action="http://localhost:3000/reminders/add" method="post"
+					class="lightBackground p-5 rounded">
+					<h2 class="heading text-center">Add a Reminder</h2>
+					<div class="form-group">
+						<label for="title" class="defaultText form-label">Reminder name</label>
+						<input type="text" id="title" name="title" class="form-control formInput"
+							placeholder="Enter reminder name" required>
+					</div>
+					<div class="form-group mt-3">
+						<label for="description" class="defaultText form-label">Reminder description</label>
+						<input type="text" id="description" name="description" class="form-control formInput"
+							placeholder="Enter reminder description" required>
+					</div>
+					<div class="form-group mt-3">
+						<label for="date" class="defaultText form-label">Reminder date</label>
+						<input type="datetime-local" id="date" name="date" class="form-control formInput" required>
+					</div>
+					<div class="form-group text-center mt-3">
+						<button type="submit" class="btn primaryButton mx-2 w-25">Submit</button>
+						<a href="/reminders" class="btn deleteButton mx-2 w-25" role="button">Discard</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var today = new Date().toISOString().slice(0, 16);
+		document.getElementById("date").setAttribute("min", today);
+	</script>
+</body>
+
+</html>
