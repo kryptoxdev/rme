@@ -1,3 +1,0 @@
-Ehsan, S. (2014) When and why should date pickers be used? Available at: https://ux.stackexchange.com/questions/49741/when-and-why-should-date-pickers-be-used (Accessed: April 26, 2023).
-Puri, M. (2012) “GetFeedback,” Web Forms: Their Importance And How To Improve Them, 12 October. Available at: https://www.getfeedback.com/resources/ux/web-forms-their-importance-and-how-to-improve-them/ (Accessed: April 26, 2023).
-Lacey Tech (2023) “Lacey Tech,” Why Is Consistency Important In Web Design?, 2 December. Available at: https://lacey-tech.com/blog/importance-of-consistency-in-web-design/. (Accessed: April 26, 2023).
