@@ -95,9 +95,9 @@ fn add_reminder(form: Form<ReminderForm>) -> Redirect {
 
 	let mut conn = pool.get_conn().unwrap();
 
-	let title = form.title.clone();
-	let description = form.description.clone();
-	let date = form.date.clone();
+	let title = &form.title;
+	let description = &form.description;
+	let date = &form.date;
 
 	let query = format!(
 		"INSERT INTO reminders (title, description, date) VALUES ('{}', '{}', '{}')",
@@ -118,7 +118,7 @@ fn render_delete(id: u32) -> Template {
 
 	let reminder_data: Vec<Reminder> = conn
 		.query_map(format!(
-			"SELECT * FROM reminders WHERE id = {id}"),
+			"SELECT * FROM reminders WHERE id = {}", id),
 			|(id, title, description, date)| Reminder {
 				id,
 				title,
@@ -158,7 +158,7 @@ fn delete_reminder(id: u32) -> Redirect {
 	let mut conn = pool.get_conn().unwrap();
 
 	let query = format!(
-		"DELETE FROM reminders WHERE id = {id}"
+		"DELETE FROM reminders WHERE id = {}", id
 	);
 
 	conn.query_drop(query).unwrap();
@@ -175,7 +175,7 @@ fn render_edit(id: u32) -> Template {
 
 	let reminder_data: Vec<Reminder> = conn
 		.query_map(format!(
-			"SELECT * FROM reminders WHERE id = {id}"),
+			"SELECT * FROM reminders WHERE id = {}", id),
 			|(id, title, description, date)| Reminder {
 				id,
 				title,
@@ -210,9 +210,9 @@ fn edit_reminder(id: u32, form: Form<ReminderForm>) -> Redirect {
 
 	let mut conn = pool.get_conn().unwrap();
 
-	let title = form.title.clone();
-	let description = form.description.clone();
-	let date = form.date.clone();
+	let title = &form.title;
+	let description = &form.description;
+	let date = &form.date;
 
 	let query = format!(
 		"UPDATE reminders SET title = '{}', description = '{}', date = '{}' WHERE id = {}",
