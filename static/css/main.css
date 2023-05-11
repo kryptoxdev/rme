@@ -60,11 +60,12 @@ h1, .heading {
 .appIcon {
 	font-weight: 800;
 	text-decoration: none;
+	color: white;
 }
 
 .primaryButton, .deleteButton, .editButton, .returnButton, .homeButton {
 	font-family: "Open Sans", sans-serif;
-	font-weight: 700;
+	font-weight: 700; 
 	color: white;
 	padding: 10px;
 }
