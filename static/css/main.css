@@ -3,15 +3,9 @@
 body {
 	background-color: #010014;
 	color: white;
-	overflow: hidden;
 }
 
-h1 {
-	font-family: "Barlow", sans-serif;
-	font-weight: 700;
-}
-
-.heading {
+h1, .heading {
 	font-family: "Barlow", sans-serif;
 	font-weight: 700;
 }
@@ -22,7 +16,7 @@ h1 {
 	color: white;
 }
 
-.defaultText {
+.defaultText, .defaultText.form {
 	font-family: "Open Sans", sans-serif;
 	color: white;
 }
@@ -32,9 +26,12 @@ h1 {
 	font-weight: 700;
 }
 
-.card-title {
+.card-title, .appIcon {
 	font-family: "Barlow", sans-serif;
 	font-weight: 700;
+}
+
+.card-title {
 	font-size: 20px;
 }
 
@@ -61,30 +58,28 @@ h1 {
 }
 
 .appIcon {
-	font-family: "Open Sans", sans-serif;
 	font-weight: 800;
 	text-decoration: none;
-	color: white;
 }
 
-.primaryButton {
+.primaryButton, .deleteButton, .editButton, .returnButton, .homeButton {
 	font-family: "Open Sans", sans-serif;
 	font-weight: 700;
-	background-color: #03DAC6;
 	color: white;
 	padding: 10px;
 }
 
+.primaryButton {
+	background-color: #03DAC6;
+}
+
 .primaryButton:hover {
 	background-color: #00b8a5;
-	color: white;
 }
 
 .homeButton {
-	font-family: "Open Sans", sans-serif;
 	font-weight: 800;
 	background-color: #020040;
-	color: white;
 	padding: 15px;
 }
 
@@ -94,24 +89,15 @@ h1 {
 }
 
 .deleteButton {
-	font-family: "Open Sans", sans-serif;
-	font-weight: 700;
 	background-color: #ED5151;
-	color: white;
-	padding: 10px;
 }
 
 .deleteButton:hover {
 	background-color: #c44242;
-	color: white;
 }
 
 .editButton {
-	font-family: "Open Sans", sans-serif;
-	font-weight: 700;
 	background-color: #028090;
-	color: white;
-	padding: 10px;
 }
 
 .editButton:hover {
@@ -119,11 +105,7 @@ h1 {
 }
 
 .returnButton {
-	font-family: "Open Sans", sans-serif;
-	font-weight: 700;
 	background-color: grey;
-	color: white;
-	padding: 10px;
 }
 
 .navButtons {
