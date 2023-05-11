@@ -24,7 +24,7 @@
 		<div class="row center">
 			<div class="col-md-4">
 				{{#each reminders}}
-				<form id="ReminderForm" action="http://localhost:3000/reminders/delete/{{id}}" method="post"
+				<form id="ReminderForm" action="/reminders/delete/{{id}}" method="post"
 					class="lightBackground p-5 rounded">
 					<h2 class="heading text-center">Delete Reminder '{{title}}'</h2>
 					<div class="form-group">
