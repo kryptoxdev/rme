@@ -224,6 +224,11 @@ fn edit_reminder(id: u32, form: Form<ReminderForm>) -> Redirect {
 	Redirect::to("/reminders")
 }
 
+#[catch(404)]
+fn not_found() -> Template {
+	Template::render("404", ())
+}
+
 fn main() {
 	rocket::ignite()
 		.mount(
@@ -231,6 +236,7 @@ fn main() {
 			StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")),
 		)
 		.mount("/", routes![index, reminders, render_add, add_reminder, render_delete, delete_reminder, render_edit, edit_reminder])
+		.register(catchers![not_found])
 		.attach(Template::fairing())
 		.launch();
 }
