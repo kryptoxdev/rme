@@ -10,14 +10,16 @@
 </head>
 
 <body>
-	<nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
-		<div class="col-md-3 mb-2 mb-md-0"> <a class="appIcon" href="/">R.ME</a> </div>
-		<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-			<li><a href="/" class="navButtons">home</a></li>
-			<li><a href="/reminders" class="navButtons active" aria-current="page">reminders</a></li>
-		</ul>
-		<div class="col-md-3 text-end"> </div>
-	</nav>
+	<div class="container">
+		<nav class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
+			<div class="col-md-3 mb-2 mb-md-0"> <a class="appIcon" href="/">R.ME</a> </div>
+			<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+				<li><a href="/" class="navButtons active" aria-current="page">home</a></li>
+				<li><a href="/reminders" class="navButtons">reminders</a></li>
+			</ul>
+			<div class="col-md-3 text-end"></div>
+		</nav>
+	</div>
 	<div class="container d-flex justify-content-center align-items-center">
 		<div class="py-5">
 			<div class="col-lg-12">
@@ -31,7 +33,7 @@
 							{{#each reminders}}
 							<div class="col-sm-4 mb-4">
 								<div class="card defaultText lightBackground mb-4 w-100 rounded-3 shadow-lg">
-									<div class="card-body">
+									<div class="text-center card-body">
 										<h5 class="card-title">{{title}}</h5>
 										<p class="card-text">{{description}}</p>
 										<p class="card-text">{{date}}</p>
