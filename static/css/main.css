@@ -62,6 +62,7 @@ h1, .heading {
 
 .homeText.secondary {
 	color: grey;
+	font-weight: 500;
 }
 
 .appIcon {
