@@ -109,6 +109,10 @@ h1, .heading {
 	background-color: grey;
 }
 
+.returnButton:hover {
+	background-color: rgb(110, 110, 110);
+}
+
 .navButtons {
 	font-family: "Open Sans", sans-serif;
 	font-weight: 600;
