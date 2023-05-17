@@ -27,23 +27,21 @@
 					<h1 class="display-6 homeText">Your Reminders</h1>
 					<a href="/reminders/add" class="btn primaryButton mx-3">+ Add Reminder</a>
 				</div>
-				<div class="w-100 rounded-3 shadow-lg">
-					<div class="card-body">
-						<div class="row">
-							{{#each reminders}}
-							<div class="col-md-4 mb-4">
-								<div class="card defaultText lightBackground mb-4 w-100 rounded-3 shadow-lg">
-									<div class="text-center card-body">
-										<h5 class="card-title">{{title}}</h5>
-										<p class="card-text">{{description}}</p>
-										<p class="card-text">{{date}}</p>
-										<a href="/reminders/edit/{{id}}" class="btn editButton">Edit Reminder</a>
-										<a href="/reminders/delete/{{id}}" class="btn deleteButton">Delete Reminder</a>
-									</div>
-								</div>
+				<div class="rounded-3 shadow-lg">
+					<div class="card-grid">
+						{{#each reminders}}
+						<div class="card defaultText lightBackground rounded-3 shadow-lg" style="width: 350px;flex 1 0 350px;">
+							<div class="card-title text-center lightBackground">
+								<h5 class="card-title">{{title}}</h5>
 							</div>
-							{{/each}}
+							<div class="text-center card-body lighterBackground">
+								<p class="card-text">{{description}}</p>
+								<p class="card-text">{{date}}</p>
+								<a href="/reminders/edit/{{id}}" class="btn editButton">Edit Reminder</a>
+								<a href="/reminders/delete/{{id}}" class="btn deleteButton">Delete Reminder</a>
+							</div>
 						</div>
+						{{/each}}
 					</div>
 				</div>
 			</div>
