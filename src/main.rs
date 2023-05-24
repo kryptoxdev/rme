@@ -16,227 +16,233 @@ use std::env;
 
 #[derive(Serialize, Deserialize)]
 struct Reminder {
-	id: i32,
-	title: String,
-	description: String,
-	date: String,
+    id: i32,
+    title: String,
+    description: String,
+    date: String,
 }
 
 #[derive(FromForm)]
 struct ReminderForm {
-	title: String,
-	description: String,
-	date: String,
+    title: String,
+    description: String,
+    date: String,
 }
 
 #[get("/")]
 fn index() -> Template {
-	let context = json!({
-		"title": "r.me | Home"
-	});
-	Template::render("index", &context)
+    let context = json!({
+        "title": "r.me | Home"
+    });
+    Template::render("index", &context)
 }
 
 #[get("/reminders")]
 fn reminders() -> Template {
-	let url = "mysql://root:password@localhost:3306/jackreminders";
-	let pool = Pool::new(url).unwrap();
+    let url = "mysql://root:password@localhost:3306/jackreminders";
+    let pool = Pool::new(url).unwrap();
 
-	let mut conn = pool.get_conn().unwrap();
+    let mut conn = pool.get_conn().unwrap();
 
-	conn.query_drop("DELETE FROM REMINDERS WHERE date < NOW();").unwrap();
+    conn.query_drop("DELETE FROM REMINDERS WHERE date < NOW();")
+        .unwrap();
 
-	let reminders_data: Vec<Reminder> = conn
-		.query_map(
-			"SELECT * FROM reminders",
-			|(id, title, description, date)| Reminder {
-				id,
-				title,
-				description,
-				date,
-			},
-		)
-		.unwrap()
-		.iter()
-		.map(|reminder| {
-			let date_time = NaiveDateTime::parse_from_str(&reminder.date, "%Y-%m-%d %H:%M:%S").unwrap();
-			let formatted_date = date_time.format("%d %B %Y, %I:%M %p").to_string();
+    let reminders_data: Vec<Reminder> = conn
+        .query_map(
+            "SELECT * FROM reminders",
+            |(id, title, description, date)| Reminder {
+                id,
+                title,
+                description,
+                date,
+            },
+        )
+        .unwrap()
+        .iter()
+        .map(|reminder| {
+            let date_time =
+                NaiveDateTime::parse_from_str(&reminder.date, "%Y-%m-%d %H:%M:%S").unwrap();
+            let formatted_date = date_time.format("%d %B %Y, %I:%M %p").to_string();
 
-			Reminder {
-				id: reminder.id,
-				title: reminder.title.clone(),
-				description: reminder.description.clone(),
-				date: formatted_date,
-			}
-		})
-		.collect();
+            Reminder {
+                id: reminder.id,
+                title: reminder.title.clone(),
+                description: reminder.description.clone(),
+                date: formatted_date,
+            }
+        })
+        .collect();
 
-	let context = json!({
-		"pagetitle": "r.me | Reminders",
-		"reminders": reminders_data,
-	});
+    let context = json!({
+        "pagetitle": "r.me | Reminders",
+        "reminders": reminders_data,
+    });
 
-	Template::render("reminders", &context)
+    Template::render("reminders", &context)
 }
 
 #[get("/reminders/add")]
 fn render_add() -> Template {
-	let context = json!({
-		"pagetitle": "r.me | Add Reminder"
-	});
+    let context = json!({
+        "pagetitle": "r.me | Add Reminder"
+    });
 
-	Template::render("addreminder", &context)
+    Template::render("addreminder", &context)
 }
 
 #[post("/reminders/add", data = "<form>")]
 fn add_reminder(form: Form<ReminderForm>) -> Redirect {
-	let url = "mysql://root:password@localhost:3306/jackreminders";
-	let pool = Pool::new(url).unwrap();
+    let url = "mysql://root:password@localhost:3306/jackreminders";
+    let pool = Pool::new(url).unwrap();
 
-	let mut conn = pool.get_conn().unwrap();
+    let mut conn = pool.get_conn().unwrap();
 
-	let title = &form.title;
-	let description = &form.description;
-	let date = &form.date;
+    let title = &form.title;
+    let description = &form.description;
+    let date = &form.date;
 
-	let query = format!(
-		"INSERT INTO reminders (title, description, date) VALUES ('{}', '{}', '{}')",
-		title, description, date
-	);
+    let query = "INSERT INTO reminders (title, description, date) VALUES (?, ?, ?)";
 
-	conn.query_drop(query).unwrap();
+    conn.exec_drop(query, (title, description, date)).unwrap();
 
-	Redirect::to("/reminders")
+    Redirect::to("/reminders")
 }
 
 #[get("/reminders/delete/<id>")]
 fn render_delete(id: u32) -> Template {
-	let url = "mysql://root:password@localhost:3306/jackreminders";
-	let pool = Pool::new(url).unwrap();
+    let url = "mysql://root:password@localhost:3306/jackreminders";
+    let pool = Pool::new(url).unwrap();
 
-	let mut conn = pool.get_conn().unwrap();
+    let mut conn = pool.get_conn().unwrap();
 
-	let reminder_data: Vec<Reminder> = conn
-		.query_map(format!(
-			"SELECT * FROM reminders WHERE id = {}", id),
-			|(id, title, description, date)| Reminder {
-				id,
-				title,
-				description,
-				date,
-			},
-		)
-		.unwrap()
-		.iter()
-		.map(|reminder| {
-			let date_time =
-				NaiveDateTime::parse_from_str(&reminder.date, "%Y-%m-%d %H:%M:%S").unwrap();
-			let formatted_date = date_time.format("%d %B %Y, %I:%M %p").to_string();
+    let reminder_data: Vec<Reminder> = conn
+        .query_map(
+            format!("SELECT * FROM reminders WHERE id = {}", id),
+            |(id, title, description, date)| Reminder {
+                id,
+                title,
+                description,
+                date,
+            },
+        )
+        .unwrap()
+        .iter()
+        .map(|reminder| {
+            let date_time =
+                NaiveDateTime::parse_from_str(&reminder.date, "%Y-%m-%d %H:%M:%S").unwrap();
+            let formatted_date = date_time.format("%d %B %Y, %I:%M %p").to_string();
 
-			Reminder {
-				id: reminder.id,
-				title: reminder.title.clone(),
-				description: reminder.description.clone(),
-				date: formatted_date,
-			}
-		})
-		.collect();
+            Reminder {
+                id: reminder.id,
+                title: reminder.title.clone(),
+                description: reminder.description.clone(),
+                date: formatted_date,
+            }
+        })
+        .collect();
 
-	let context = json!({
-		"pagetitle": "r.me | Delete Reminder",
-		"reminders": reminder_data,
-	});
-	
-	Template::render("deletereminder", &context)
+    let context = json!({
+        "pagetitle": "r.me | Delete Reminder",
+        "reminders": reminder_data,
+    });
+
+    Template::render("deletereminder", &context)
 }
 
 #[post("/reminders/delete/<id>")]
 fn delete_reminder(id: u32) -> Redirect {
-	let url = "mysql://root:password@localhost:3306/jackreminders";
-	let pool = Pool::new(url).unwrap();
+    let url = "mysql://root:password@localhost:3306/jackreminders";
+    let pool = Pool::new(url).unwrap();
 
-	let mut conn = pool.get_conn().unwrap();
+    let mut conn = pool.get_conn().unwrap();
 
-	let query = format!(
-		"DELETE FROM reminders WHERE id = {}", id
-	);
+    let query = format!("DELETE FROM reminders WHERE id = {}", id);
 
-	conn.query_drop(query).unwrap();
+    conn.query_drop(query).unwrap();
 
-	Redirect::to("/reminders")
+    Redirect::to("/reminders")
 }
 
 #[get("/reminders/edit/<id>")]
 fn render_edit(id: u32) -> Template {
-	let url = "mysql://root:password@localhost:3306/jackreminders";
-	let pool = Pool::new(url).unwrap();
+    let url = "mysql://root:password@localhost:3306/jackreminders";
+    let pool = Pool::new(url).unwrap();
 
-	let mut conn = pool.get_conn().unwrap();
+    let mut conn = pool.get_conn().unwrap();
 
-	let reminder_data: Vec<Reminder> = conn
-		.query_map(format!(
-			"SELECT * FROM reminders WHERE id = {}", id),
-			|(id, title, description, date)| Reminder {
-				id,
-				title,
-				description,
-				date,
-			},
-		)
-		.unwrap()
-		.iter()
-		.map(|reminder| {
-			Reminder {
-				id: reminder.id,
-				title: reminder.title.clone(),
-				description: reminder.description.clone(),
-				date: reminder.date.clone(),
-			}
-		})
-		.collect();
+    let reminder_data: Vec<Reminder> = conn
+        .query_map(
+            format!("SELECT * FROM reminders WHERE id = {}", id),
+            |(id, title, description, date)| Reminder {
+                id,
+                title,
+                description,
+                date,
+            },
+        )
+        .unwrap()
+        .iter()
+        .map(|reminder| Reminder {
+            id: reminder.id,
+            title: reminder.title.clone(),
+            description: reminder.description.clone(),
+            date: reminder.date.clone(),
+        })
+        .collect();
 
-	let context = json!({
-		"pagetitle": "r.me | Edit Reminder",
-		"reminders": reminder_data
-	});
+    let context = json!({
+        "pagetitle": "r.me | Edit Reminder",
+        "reminders": reminder_data
+    });
 
-	Template::render("editreminder", &context)
+    Template::render("editreminder", &context)
 }
 
 #[post("/reminders/edit/<id>", data = "<form>")]
 fn edit_reminder(id: u32, form: Form<ReminderForm>) -> Redirect {
-	let url = "mysql://root:password@localhost:3306/jackreminders";
-	let pool = Pool::new(url).unwrap();
+    let url = "mysql://root:password@localhost:3306/jackreminders";
+    let pool = Pool::new(url).unwrap();
 
-	let mut conn = pool.get_conn().unwrap();
+    let mut conn = pool.get_conn().unwrap();
 
-	let title = &form.title;
-	let description = &form.description;
-	let date = &form.date;
+    let title = &form.title;
+    let description = &form.description;
+    let date = &form.date;
 
-	let query = format!(
-		"UPDATE reminders SET title = '{}', description = '{}', date = '{}' WHERE id = {}",
-		title, description, date, id
-	);
+    let query = format!(
+        "UPDATE reminders SET title = ?, description = ?, date = ? WHERE id = ?"
+    );
 
-	conn.query_drop(query).unwrap();
+    conn.exec_drop(query, (title, description, date, id)).unwrap();
 
-	Redirect::to("/reminders")
+    Redirect::to("/reminders")
 }
 
 #[catch(404)]
 fn not_found() -> Template {
-	Template::render("404", ())
+    Template::render("404", ())
 }
 
 fn main() {
-	rocket::ignite()
-		.mount(
-			"/",
-			StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")),
-		)
-		.mount("/", routes![index, reminders, render_add, add_reminder, render_delete, delete_reminder, render_edit, edit_reminder])
-		.register(catchers![not_found])
-		.attach(Template::fairing())
-		.launch();
+    rocket::ignite()
+        .mount(
+            "/",
+            StaticFiles::from(concat!(env!("CARGO_MANIFEST_DIR"), "/static")),
+        )
+        .mount(
+            "/",
+            routes![
+                index,
+                reminders,
+                render_add,
+                add_reminder,
+                render_delete,
+                delete_reminder,
+                render_edit,
+                edit_reminder
+            ],
+        )
+        .register(catchers![not_found])
+        .attach(Template::fairing())
+        .launch();
 }
